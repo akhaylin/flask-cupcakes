@@ -8,28 +8,32 @@
       rel="stylesheet">
 </head>
 <body>
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class = "alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 
-<ul id="cupcakelist">
+<ul id="cupcakeList">
 
 </ul>
 
 <form action="/api/cupcakes" method="POST" id="addCupcakeForm">
-  <label for="flavor">Flavor</label>
-  <input id="flavor" type="text" required>
-  <label for="size">Size</label>
-  <input id="size" type="text" required>
-  <label for="rating">Rating</label>
-  <input id="rating" type="number" min="0" required>
-  <label for="image_url">Image URL</label>
-  <input id="image_url" type="url">
-  <button type="submit">Submit</button>
+  <div>
+    <label for="flavor">Flavor</label>
+    <input id="flavor" type="text" required>
+  </div>
+  <div>
+    <label for="size">Size</label>
+    <input id="size" type="text" required>
+  </div>
+  <div>
+    <label for="rating">Rating</label>
+    <input id="rating" type="number" min="0" required>
+  </div>
+  <div>
+    <label for="imageUrl">Image URL</label>
+    <input id="imageUrl" type="url">
+  </div>
+
+  <button id="submit" type="submit">Submit</button>
 </form>
 </body>
+<script src="https://unpkg.com/jquery"></script>
+<script src="/static/cupcake.js"></script>
 </html>
