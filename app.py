@@ -17,22 +17,26 @@ connect_db(app)
 
 @app.get('/api/cupcakes')
 def get_all_cupcakes():
-    """Return JSON {'cupcakes': [{id, flavor, size, rating, image_url},
-    {id, flavor, size, rating, image_url},...]}"""##TODO:say what it does as well
+    """Gets a list of all cupcakes and then
+    Return JSON {'cupcakes': [{id, flavor, size, rating, image_url},
+    {id, flavor, size, rating, image_url},...]}"""
 
     cupcakes = Cupcake.query.all()
     serialized = [cupcake.serialize() for cupcake in cupcakes]
 
     return jsonify(cupcakes=serialized)
 
+
 @app.get('/api/cupcakes/<int:cupcake_id>')
 def get_single_cupcake(cupcake_id):
-    """Return JSON {'cupcake': {id, flavor, size, rating, image_url}}"""##TODO:say what it does as well
+    """Get a the data of a single cupcake by id and
+    Return JSON {'cupcake': {id, flavor, size, rating, image_url}}"""
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
     serialized = cupcake.serialize()
 
     return jsonify(cupcake=serialized)
+
 
 @app.post('/api/cupcakes')
 def create_cupcake():
@@ -53,25 +57,29 @@ def create_cupcake():
 
     return (jsonify(cupcake=serialized), 201)
 
+
 @app.patch('/api/cupcakes/<int:cupcake_id>')
 def update_cupcake(cupcake_id):
-    """Update cupcake and return JSON of updated cupcake
-    Returns JSON {'cupcake':{id, flavor, size, rating, image_url}}"""
+    """Update any of the cupcake fields: [flavor, size, rating, image_url]
+    and Returns updated cupcake JSON
+    {'cupcake':{id, flavor, size, rating, image_url}}
+    """
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
-    print("Request.json", request.json)
-    print("Request.json.items", request.json.items())
-    for item in request.json.items():
-        print("Item", item)
-        cupcake[item[0]] = item[1]
+
+    cupcake.flavor = request.json.get('flavor', cupcake.flavor)
+    cupcake.size = request.json.get('size', cupcake.size)
+    cupcake.rating = request.json.get('rating', cupcake.rating)
+    cupcake.image_url = request.json.get('image_url', cupcake.image_url)
 
     db.session.commit()
 
     return jsonify(cupcake=cupcake.serialize())
 
+
 @app.delete('/api/cupcakes/<int:cupcake_id>')
 def delete_cupcake(cupcake_id):
-    """Delete cupacake and return id of deleted cupcake
+    """Delete cupcake and
     Returns JSON {deleted': cupcake_id }"""
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
