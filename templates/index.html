@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cupcakes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link
+      href="https://bootswatch.com/5/minty/bootstrap.css"
+      rel="stylesheet">
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class = "alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<ul id="cupcakelist">
+
+</ul>
+
+<form action="/api/cupcakes" method="POST" id="addCupcakeForm">
+  <label for="flavor">Flavor</label>
+  <input id="flavor" type="text" required>
+  <label for="size">Size</label>
+  <input id="size" type="text" required>
+  <label for="rating">Rating</label>
+  <input id="rating" type="number" min="0" required>
+  <label for="image_url">Image URL</label>
+  <input id="image_url" type="url">
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>
